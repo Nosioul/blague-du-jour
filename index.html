@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blague du jour</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+      color: #2c3e50;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 800px;
+      width: 100%;
+      text-align: center;
+    }
+    
+    .title {
+      font-size: 2.5em;
+      color: #3498db;
+      margin-bottom: 30px;
+      font-weight: 300;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .card {
+      background: white;
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e1e8ed;
+      font-size: 1.3em;
+      line-height: 1.6;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3498db, #2ecc71, #f39c12, #e74c3c);
+    }
+    
+    .blague-text {
+      color: #2c3e50;
+      font-style: italic;
+      margin: 0;
+    }
+    
+    .loading {
+      color: #7f8c8d;
+      font-size: 1.1em;
+    }
+    
+    .error {
+      color: #e74c3c;
+      font-size: 1.1em;
+    }
+    
+    .emoji {
+      font-size: 3em;
+      margin-bottom: 20px;
+      display: block;
+      animation: bounce 2s infinite;
+    }
+    
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+    
+
+    
+    @media (max-width: 768px) {
+      .title {
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+      
+      .card {
+        padding: 30px 20px;
+        font-size: 1.1em;
+      }
+      
+      .emoji {
+        font-size: 2.5em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">😄 Blague du Jour</h1>
+    <div class="card">
+      <span class="emoji">🦆</span>
+      <p class="blague-text loading" id="blague"> 🦜 Chargement de la blague... </p>
+    </div>
+  </div>
+
+  <script>
+    function chargerBlague() {
+      const blagueElement = document.getElementById("blague");
+      
+      blagueElement.textContent = "Chargement...";
+      blagueElement.className = "blague-text loading";
+      
+      fetch("https://script.google.com/macros/s/AKfycbxhv9jdU5jvvWMaPamOGqnCscIaWkveR5DPM-hzRWTf7Y6x5roMHkU6xkUPr77M2hZZhw/exec")
+        .then(response => response.json())
+        .then(data => {
+          blagueElement.textContent = data.blague;
+          blagueElement.className = "blague-text";
+        })
+        .catch(error => {
+          blagueElement.textContent = "Oups ! Impossible de charger la blague 😢 Vérifiez votre connexion internet.";
+          blagueElement.className = "blague-text error";
+          console.error("Erreur lors du chargement de la blague:", error);
+        });
+    }
+    
+    // Charger la première blague au chargement de la page
+    window.addEventListener('load', chargerBlague);
+  </script>
+</body>
+</html>
