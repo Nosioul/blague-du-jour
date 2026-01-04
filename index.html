@@ -21,9 +21,11 @@
       font-family: 'Outfit', sans-serif;
       min-height: 100vh;
       background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-      padding: 20px;
+      padding: 15px;
       position: relative;
       overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
     }
     
     /* Cœurs flottants en arrière-plan */
@@ -40,7 +42,7 @@
     
     .heart {
       position: absolute;
-      font-size: 20px;
+      font-size: 18px;
       opacity: 0;
       animation: float-up 12s infinite;
     }
@@ -62,10 +64,10 @@
         transform: translateX(0) rotate(0deg);
       }
       10% {
-        opacity: 0.8;
+        opacity: 0.6;
       }
       90% {
-        opacity: 0.8;
+        opacity: 0.6;
       }
       100% {
         bottom: 110%;
@@ -75,30 +77,35 @@
     }
     
     .container {
-      max-width: 900px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
       position: relative;
       z-index: 1;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     
-    /* En-tête avec Je t'aime - Style du fichier ANTI */
+    /* En-tête avec Je t'aime - Optimisé mobile */
     .header {
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       animation: fadeIn 1s ease-out;
+      padding-top: 10px;
     }
     
     .main-title {
       font-family: 'Pacifico', cursive;
-      font-size: 5.5em;
+      font-size: 3.2em;
       background: linear-gradient(to right, #e83e8c, #6610f2);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 10px;
-      filter: drop-shadow(0 4px 6px rgba(232, 62, 140, 0.2));
+      margin-bottom: 8px;
+      filter: drop-shadow(0 3px 5px rgba(232, 62, 140, 0.2));
       animation: pulse 3s ease-in-out infinite;
-      line-height: 1.2;
+      line-height: 1.1;
+      padding: 0 5px;
     }
     
     @keyframes pulse {
@@ -107,24 +114,29 @@
     }
     
     .love-message {
-      font-size: 1.8em;
+      font-size: 1.35em;
       color: #7209b7;
       font-weight: 500;
-      margin-bottom: 20px;
-      letter-spacing: 0.5px;
+      margin-bottom: 15px;
+      letter-spacing: 0.3px;
+      line-height: 1.3;
+      padding: 0 10px;
     }
     
-    /* Section blague */
+    /* Section blague - Optimisée mobile */
     .joke-section {
       background: white;
-      border-radius: 25px;
-      padding: 50px 40px;
+      border-radius: 20px;
+      padding: 30px 20px;
       box-shadow: 
-        0 20px 60px rgba(79, 172, 254, 0.2),
+        0 15px 40px rgba(79, 172, 254, 0.2),
         0 0 0 1px rgba(255, 255, 255, 0.5);
       animation: slideUp 1s ease-out 0.3s both;
       position: relative;
       overflow: hidden;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
     
     .joke-section::before {
@@ -144,27 +156,23 @@
       100% { background-position: 200% 50%; }
     }
     
-    @keyframes shimmer {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-    
     .joke-title {
-      font-size: 2.2em;
+      font-size: 1.6em;
       color: #667eea;
       text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
+      gap: 10px;
+      line-height: 1.2;
     }
     
     .joke-emoji {
-      font-size: 3.5em;
+      font-size: 2.8em;
       text-align: center;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
       animation: bounce-rotate 3s ease-in-out infinite;
     }
     
@@ -173,26 +181,26 @@
         transform: translateY(0) rotate(-10deg);
       }
       25% {
-        transform: translateY(-15px) rotate(0deg);
+        transform: translateY(-12px) rotate(0deg);
       }
       50% {
         transform: translateY(0) rotate(10deg);
       }
       75% {
-        transform: translateY(-10px) rotate(0deg);
+        transform: translateY(-8px) rotate(0deg);
       }
     }
     
     .joke-text {
-      font-size: 1.4em;
-      line-height: 1.8;
+      font-size: 1.15em;
+      line-height: 1.6;
       color: #1e293b;
       text-align: center;
-      min-height: 80px;
+      min-height: 120px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 20px 15px;
       background: linear-gradient(135deg, #fae8ff 0%, #e0e7ff 100%);
       border-radius: 15px;
       border: 2px solid #d8b4fe;
@@ -234,9 +242,10 @@
     /* Footer avec petit cœur */
     .footer {
       text-align: center;
-      margin-top: 40px;
+      margin-top: 20px;
+      padding-bottom: 15px;
       color: #a855f7;
-      font-size: 1.1em;
+      font-size: 1em;
       font-weight: 500;
       animation: fadeIn 1s ease-out 0.6s both;
     }
@@ -244,13 +253,13 @@
     .footer-heart {
       display: inline-block;
       animation: heartbeat 1.5s ease-in-out infinite;
-      font-size: 1.5em;
-      margin: 0 5px;
+      font-size: 1.3em;
+      margin: 0 4px;
     }
     
     @keyframes heartbeat {
       0%, 100% { transform: scale(1); }
-      10%, 30% { transform: scale(1.1); }
+      10%, 30% { transform: scale(1.15); }
       20%, 40% { transform: scale(0.95); }
     }
     
@@ -270,29 +279,76 @@
       }
     }
     
-    @media (max-width: 768px) {
+    /* Optimisations pour petits écrans */
+    @media (max-width: 380px) {
+      .main-title {
+        font-size: 2.8em;
+      }
+      
+      .love-message {
+        font-size: 1.2em;
+      }
+      
+      .joke-title {
+        font-size: 1.4em;
+      }
+      
+      .joke-text {
+        font-size: 1.05em;
+        padding: 18px 12px;
+      }
+    }
+    
+    /* Optimisations pour écrans moyens */
+    @media (min-width: 381px) and (max-width: 768px) {
       .main-title {
         font-size: 3.5em;
       }
       
       .love-message {
-        font-size: 1.3em;
+        font-size: 1.4em;
+      }
+    }
+    
+    /* Écrans plus grands (tablettes et desktop) */
+    @media (min-width: 769px) {
+      body {
+        padding: 20px;
+        justify-content: center;
+      }
+      
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+      }
+      
+      .main-title {
+        font-size: 5.5em;
+      }
+      
+      .love-message {
+        font-size: 1.8em;
       }
       
       .joke-section {
-        padding: 35px 25px;
+        padding: 50px 40px;
       }
       
       .joke-title {
-        font-size: 1.7em;
+        font-size: 2.2em;
       }
       
       .joke-text {
-        font-size: 1.1em;
+        font-size: 1.4em;
       }
       
       .joke-emoji {
-        font-size: 2.5em;
+        font-size: 3.5em;
+      }
+      
+      .footer {
+        font-size: 1.1em;
+        margin-top: 40px;
       }
     }
   </style>
@@ -314,7 +370,7 @@
   <div class="container">
     <!-- En-tête -->
     <div class="header">
-      <h1 class="main-title">Je t'aime 💕</h1>
+      <h1 class="main-title">Je t'aime 💝</h1>
       <p class="love-message">Je t'aime de tout mon cœur Millette 🥰</p>
     </div>
     
