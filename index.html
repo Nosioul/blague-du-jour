@@ -274,16 +274,20 @@
       body {
         padding: 10px;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        flex-direction: column;
+        justify-content: flex-start;
       }
 
       .container {
         width: 100%;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
       }
 
       .header {
-        margin-bottom: 25px;
+        margin-bottom: 0;
+        margin-top: 20px;
       }
 
       .main-title {
@@ -293,13 +297,16 @@
 
       .love-message {
         font-size: 1.15em;
-        margin-bottom: 20px;
+        margin-bottom: 0;
         letter-spacing: 0.3px;
       }
 
       .joke-section {
         padding: 25px 20px;
         border-radius: 20px;
+        margin-top: auto;
+        margin-bottom: auto;
+        transform: translateY(-8%);
       }
 
       .joke-title {
@@ -359,7 +366,7 @@
     <!-- Section blague -->
     <div class="joke-section">
       <h2 class="joke-title">😄 Blague du Jour 😄</h2>
-      <div class="joke-emoji">🦆</div>
+      <div class="joke-emoji">🍪</div>
       <div class="joke-text loading" id="joke">
         Chargement<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
       </div>
@@ -390,3 +397,9 @@
           console.error("Erreur:", error);
         });
     }
+    
+    // Charger la blague au chargement de la page
+    window.addEventListener('load', loadJoke);
+  </script>
+</body>
+</html>
