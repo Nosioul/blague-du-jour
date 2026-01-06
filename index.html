@@ -208,7 +208,49 @@
       color: #dc2626;
       font-weight: 600;
     }
-    
+
+    /* Checkbox J'ai lue */
+    .read-checkbox-container {
+      margin-top: 25px;
+      text-align: center;
+      padding: 15px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fce7f3 100%);
+      border-radius: 12px;
+      border: 2px solid #fbbf24;
+    }
+
+    .read-checkbox-container label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1.2em;
+      color: #92400e;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .read-checkbox-container input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: #7c3aed;
+    }
+
+    .read-checkbox-container input[type="checkbox"]:checked + span {
+      color: #059669;
+    }
+
+    .read-checkbox-container input[type="checkbox"]:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .read-checkbox-container input[type="checkbox"]:disabled + span {
+      cursor: not-allowed;
+    }
+
     .loading-dots {
       display: inline-block;
     }
@@ -370,6 +412,14 @@
       <div class="joke-text loading" id="joke">
         Chargement<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
       </div>
+
+      <!-- Checkbox J'ai lue -->
+      <div class="read-checkbox-container">
+        <label>
+          <input type="checkbox" id="readCheckbox">
+          <span>J'ai lue ✓</span>
+        </label>
+      </div>
     </div>
     
     <!-- Footer -->
@@ -379,17 +429,27 @@
   </div>
 
   <script>
+    let currentRow = null;
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxhv9jdU5jvvWMaPamOGqnCscIaWkveR5DPM-hzRWTf7Y6x5roMHkU6xkUPr77M2hZZhw/exec";
+
     function loadJoke() {
       const jokeElement = document.getElementById("joke");
-      
+      const checkbox = document.getElementById("readCheckbox");
+
       jokeElement.innerHTML = 'Chargement<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
       jokeElement.className = "joke-text loading";
-      
-      fetch("https://script.google.com/macros/s/AKfycbxhv9jdU5jvvWMaPamOGqnCscIaWkveR5DPM-hzRWTf7Y6x5roMHkU6xkUPr77M2hZZhw/exec")
+
+      fetch(scriptUrl)
         .then(response => response.json())
         .then(data => {
           jokeElement.textContent = data.blague;
           jokeElement.className = "joke-text";
+          currentRow = data.row;
+
+          // Cocher la checkbox si la blague est déjà marquée comme lue
+          checkbox.checked = data.isRead || false;
+          // Si déjà lue, désactiver la checkbox
+          checkbox.disabled = data.isRead || false;
         })
         .catch(error => {
           jokeElement.textContent = "Oups ! Impossible de charger la blague 😢";
@@ -397,9 +457,38 @@
           console.error("Erreur:", error);
         });
     }
-    
+
+    // Fonction pour marquer la blague comme lue
+    function markAsRead() {
+      const checkbox = document.getElementById("readCheckbox");
+
+      if (checkbox.checked && currentRow) {
+        fetch(scriptUrl + "?action=markAsRead&row=" + currentRow)
+          .then(response => response.json())
+          .then(data => {
+            console.log("Blague marquée comme lue!");
+            // Désactiver la checkbox pour qu'elle ne puisse plus être décochée
+            checkbox.disabled = true;
+          })
+          .catch(error => {
+            console.error("Erreur lors du marquage:", error);
+            // Décocher la checkbox en cas d'erreur
+            checkbox.checked = false;
+          });
+      } else if (!checkbox.checked) {
+        // Empêcher de décocher si elle était déjà cochée
+        checkbox.checked = true;
+      }
+    }
+
     // Charger la blague au chargement de la page
     window.addEventListener('load', loadJoke);
+
+    // Écouter les changements de la checkbox
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkbox = document.getElementById("readCheckbox");
+      checkbox.addEventListener('change', markAsRead);
+    });
   </script>
 </body>
 </html>
