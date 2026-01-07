@@ -432,7 +432,7 @@
 
   <script>
     let currentRow = null;
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbzF7Sli0h8-n6g2NCeVwi51EdsGv2h9LrxuuhlkAJY3yUGBAwW0KaGLzEytplp6twZTXg/exec";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbxTQpVvLWfibHQv-oPoWFz_6rHzjCHr3E49LQDmIhDHXf6xKpuhz5M0DzUeOdYn48ZFJA/exec";
 
     function loadJoke() {
       const jokeElement = document.getElementById("joke");
@@ -489,4 +489,13 @@
     }
 
     // Charger la blague au chargement de la page
-    window.addEventListener('load', loadJoke)
+    window.addEventListener('load', loadJoke);
+
+    // Écouter les changements de la checkbox
+    document.addEventListener('DOMContentLoaded', function() {
+      const checkbox = document.getElementById("readCheckbox");
+      checkbox.addEventListener('change', markAsRead);
+    });
+  </script>
+</body>
+</html>
