@@ -244,11 +244,13 @@
 
     .read-checkbox-container input[type="checkbox"]:disabled {
       cursor: not-allowed;
-      opacity: 0.7;
+      opacity: 0.4;
     }
 
     .read-checkbox-container input[type="checkbox"]:disabled + span {
       cursor: not-allowed;
+      color: #9ca3af;
+      opacity: 0.5;
     }
 
     .loading-dots {
@@ -408,7 +410,7 @@
     <!-- Section blague -->
     <div class="joke-section">
       <h2 class="joke-title">😄 Blague du Jour 😄</h2>
-      <div class="joke-emoji">🦆</div>
+      <div class="joke-emoji">🪅</div>
       <div class="joke-text loading" id="joke">
         Chargement<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
       </div>
@@ -416,7 +418,7 @@
       <!-- Checkbox J'ai lue -->
       <div class="read-checkbox-container">
         <label>
-          <input type="checkbox" id="readCheckbox">
+          <input type="checkbox" id="readCheckbox" disabled>
           <span>J'ai lue ✓</span>
         </label>
       </div>
@@ -436,6 +438,10 @@
       const jokeElement = document.getElementById("joke");
       const checkbox = document.getElementById("readCheckbox");
 
+      // Désactiver la checkbox pendant le chargement
+      checkbox.disabled = true;
+      checkbox.checked = false;
+
       jokeElement.innerHTML = 'Chargement<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>';
       jokeElement.className = "joke-text loading";
 
@@ -448,12 +454,13 @@
 
           // Cocher la checkbox si la blague est déjà marquée comme lue
           checkbox.checked = data.isRead || false;
-          // Si déjà lue, désactiver la checkbox
+          // Activer/désactiver la checkbox selon si elle est déjà lue
           checkbox.disabled = data.isRead || false;
         })
         .catch(error => {
           jokeElement.textContent = "Oups ! Impossible de charger la blague 😢";
           jokeElement.className = "joke-text error";
+          checkbox.disabled = true; // Laisser désactivée en cas d'erreur
           console.error("Erreur:", error);
         });
     }
@@ -482,13 +489,4 @@
     }
 
     // Charger la blague au chargement de la page
-    window.addEventListener('load', loadJoke);
-
-    // Écouter les changements de la checkbox
-    document.addEventListener('DOMContentLoaded', function() {
-      const checkbox = document.getElementById("readCheckbox");
-      checkbox.addEventListener('change', markAsRead);
-    });
-  </script>
-</body>
-</html>
+    window.addEventListener('load', loadJoke)
