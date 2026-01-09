@@ -113,6 +113,51 @@
       margin-bottom: 20px;
       letter-spacing: 0.5px;
     }
+
+    /* Compteur de série */
+    .streak-counter {
+      background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+      border-radius: 20px;
+      padding: 15px 30px;
+      margin: 20px auto;
+      max-width: 300px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
+      animation: slideUp 1s ease-out 0.5s both;
+    }
+
+    .streak-counter.hidden {
+      display: none;
+    }
+
+    .streak-number {
+      font-size: 2.5em;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .streak-label {
+      font-size: 1.1em;
+      color: white;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    .streak-fire {
+      animation: fire-flicker 1.5s ease-in-out infinite;
+    }
+
+    @keyframes fire-flicker {
+      0%, 100% { transform: scale(1) rotate(-5deg); }
+      25% { transform: scale(1.1) rotate(5deg); }
+      50% { transform: scale(1.05) rotate(-3deg); }
+      75% { transform: scale(1.15) rotate(3deg); }
+    }
     
     /* Section blague */
     .joke-section {
@@ -405,6 +450,16 @@
     <div class="header">
       <h1 class="main-title">Je t'aime 💕</h1>
       <p class="love-message">Je t'aime de tout mon cœur Millette 🥰</p>
+
+      <!-- Compteur de série -->
+      <div class="streak-counter hidden" id="streakCounter">
+        <div class="streak-number">
+          <span class="streak-fire">🔥</span>
+          <span id="streakNumber">0</span>
+          <span class="streak-fire">🔥</span>
+        </div>
+        <div class="streak-label">jours de suite!</div>
+      </div>
     </div>
     
     <!-- Section blague -->
@@ -432,7 +487,7 @@
 
   <script>
     let currentRow = null;
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbxTQpVvLWfibHQv-oPoWFz_6rHzjCHr3E49LQDmIhDHXf6xKpuhz5M0DzUeOdYn48ZFJA/exec";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbw0wHMS8gx8IQIy4MZGPppL2laRQRI44GF4VUlzPR8xNW6BuT9VYtDW7JR38corj055Xw/exec";
 
     function loadJoke() {
       const jokeElement = document.getElementById("joke");
@@ -456,6 +511,12 @@
           checkbox.checked = data.isRead || false;
           // Activer/désactiver la checkbox selon si elle est déjà lue
           checkbox.disabled = data.isRead || false;
+
+          // Afficher le compteur de série
+          if (data.streak && data.streak > 0) {
+            document.getElementById('streakNumber').textContent = data.streak;
+            document.getElementById('streakCounter').classList.remove('hidden');
+          }
         })
         .catch(error => {
           jokeElement.textContent = "Oups ! Impossible de charger la blague 😢";
@@ -476,6 +537,12 @@
             console.log("Blague marquée comme lue!");
             // Désactiver la checkbox pour qu'elle ne puisse plus être décochée
             checkbox.disabled = true;
+
+            // Mettre à jour le compteur de série si retourné
+            if (data.streak && data.streak > 0) {
+              document.getElementById('streakNumber').textContent = data.streak;
+              document.getElementById('streakCounter').classList.remove('hidden');
+            }
           })
           .catch(error => {
             console.error("Erreur lors du marquage:", error);
