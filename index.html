@@ -123,11 +123,14 @@
       max-width: 300px;
       text-align: center;
       box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
-      animation: slideUp 1s ease-out 0.5s both;
     }
 
     .streak-counter.hidden {
       display: none;
+    }
+
+    .streak-counter.show {
+      animation: slideUp 0.6s ease-out;
     }
 
     .streak-number {
@@ -157,6 +160,42 @@
       25% { transform: scale(1.1) rotate(5deg); }
       50% { transform: scale(1.05) rotate(-3deg); }
       75% { transform: scale(1.15) rotate(3deg); }
+    }
+
+    @keyframes streak-pop {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(1.2);
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes number-update {
+      0% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.5) rotate(10deg);
+        color: #ffd700;
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+        color: white;
+      }
+    }
+
+    .streak-counter.animate-pop {
+      animation: streak-pop 0.6s ease-out;
+    }
+
+    .streak-number.animate-update {
+      animation: number-update 0.5s ease-out;
     }
     
     /* Section blague */
@@ -514,8 +553,10 @@
 
           // Afficher le compteur de série
           if (data.streak && data.streak > 0) {
+            const streakCounter = document.getElementById('streakCounter');
             document.getElementById('streakNumber').textContent = data.streak;
-            document.getElementById('streakCounter').classList.remove('hidden');
+            streakCounter.classList.remove('hidden');
+            streakCounter.classList.add('show');
           }
         })
         .catch(error => {
@@ -538,31 +579,7 @@
             // Désactiver la checkbox pour qu'elle ne puisse plus être décochée
             checkbox.disabled = true;
 
-            // Mettre à jour le compteur de série si retourné
+            // Mettre à jour le compteur de série avec animation
             if (data.streak && data.streak > 0) {
-              document.getElementById('streakNumber').textContent = data.streak;
-              document.getElementById('streakCounter').classList.remove('hidden');
-            }
-          })
-          .catch(error => {
-            console.error("Erreur lors du marquage:", error);
-            // Décocher la checkbox en cas d'erreur
-            checkbox.checked = false;
-          });
-      } else if (!checkbox.checked) {
-        // Empêcher de décocher si elle était déjà cochée
-        checkbox.checked = true;
-      }
-    }
-
-    // Charger la blague au chargement de la page
-    window.addEventListener('load', loadJoke);
-
-    // Écouter les changements de la checkbox
-    document.addEventListener('DOMContentLoaded', function() {
-      const checkbox = document.getElementById("readCheckbox");
-      checkbox.addEventListener('change', markAsRead);
-    });
-  </script>
-</body>
-</html>
+              const streakCounter = document.getElementById('streakCounter');
+              const streak
