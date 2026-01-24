@@ -580,20 +580,25 @@
             checkbox.disabled = true;
 
             // Mettre à jour le compteur de série avec animation
-            if (data.streak && data.streak > 0) {
-              const streakCounter = document.getElementById('streakCounter');
-              const streakNumberEl = document.getElementById('streakNumber');
+            const streakCounter = document.getElementById('streakCounter');
+            const streakNumberEl = document.getElementById('streakNumber');
+            const newStreak = data.streak || 1; // Au minimum 1 si on vient de lire
 
-              streakNumberEl.textContent = data.streak;
+            const oldStreak = parseInt(streakNumberEl.textContent) || 0;
+            streakNumberEl.textContent = newStreak;
+
+            // Si le compteur était caché, l'afficher avec animation
+            if (streakCounter.classList.contains('hidden')) {
               streakCounter.classList.remove('hidden');
               streakCounter.classList.add('show', 'animate-pop');
-              streakNumberEl.classList.add('animate-update');
+            }
 
-              // Retirer les classes d'animation après l'animation
+            // Animation du nombre qui augmente
+            if (newStreak > oldStreak) {
+              streakNumberEl.classList.add('animate-update');
               setTimeout(() => {
-                streakCounter.classList.remove('animate-pop');
                 streakNumberEl.classList.remove('animate-update');
-              }, 600);
+              }, 500);
             }
           })
           .catch(error => {
