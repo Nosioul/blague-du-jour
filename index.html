@@ -526,7 +526,7 @@
 
   <script>
     let currentRow = null;
-    const scriptUrl = "https://script.google.com/macros/s/AKfycbw0wHMS8gx8IQIy4MZGPppL2laRQRI44GF4VUlzPR8xNW6BuT9VYtDW7JR38corj055Xw/exec";
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbwwmH5txPkdF_rjVF3W-5KkxKSz8YdMW3dYYVzyUx3IB9Pi3KKZkxELq3pbKidcRtA2dg/exec";
 
     function loadJoke() {
       const jokeElement = document.getElementById("joke");
@@ -582,4 +582,33 @@
             // Mettre à jour le compteur de série avec animation
             if (data.streak && data.streak > 0) {
               const streakCounter = document.getElementById('streakCounter');
-              const streak
+              const streakNumberEl = document.getElementById('streakNumber');
+
+              streakNumberEl.textContent = data.streak;
+              streakCounter.classList.remove('hidden');
+              streakCounter.classList.add('show', 'animate-pop');
+              streakNumberEl.classList.add('animate-update');
+
+              // Retirer les classes d'animation après l'animation
+              setTimeout(() => {
+                streakCounter.classList.remove('animate-pop');
+                streakNumberEl.classList.remove('animate-update');
+              }, 600);
+            }
+          })
+          .catch(error => {
+            console.error("Erreur lors du marquage:", error);
+            // Remettre la checkbox à non cochée en cas d'erreur
+            checkbox.checked = false;
+          });
+      }
+    }
+
+    // Ajouter l'écouteur d'événement sur la checkbox
+    document.getElementById("readCheckbox").addEventListener("change", markAsRead);
+
+    // Charger la blague au chargement de la page
+    window.onload = loadJoke;
+  </script>
+</body>
+</html>
